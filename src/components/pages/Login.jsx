@@ -36,7 +36,6 @@ const Login = () => {
         { withCredentials: true }
       );
       console.log(response.data);
-      console.log(password);
       if (response.data.message === "Utilisateur connecté avec succès") {
         console.log(response.data);
         console.log(response.data.user);
