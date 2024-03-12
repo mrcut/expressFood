@@ -42,48 +42,13 @@ const Header = () => {
   return (
     <AppBar position="fixed" color="info">
       <Toolbar sx={{ justifyContent: "space-between", alignItems: "center" }}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          {/* Inserting a box to group left side elements helps in organizing and potentially balancing the AppBar layout */}
-          {user && (
-            <>
-              <Button color="inherit" component={RouterLink} to="/products">
-                Tout les produits
-              </Button>
-              <Button
-                color="inherit"
-                component={RouterLink}
-                to="/products/foot"
-              >
-                Foot
-              </Button>
-              <Button
-                color="inherit"
-                component={RouterLink}
-                to="/products/tennis"
-              >
-                Tennis
-              </Button>
-              <Button
-                color="inherit"
-                component={RouterLink}
-                to="/products/natation"
-              >
-                Natation
-              </Button>
-            </>
-          )}
-        </Box>
-
-        {/* Title centered using flexGrow on Typography */}
         <Typography
           variant="h5"
           sx={{
-            flexGrow: 1,
             fontWeight: "bold",
             color: "white",
             textShadow: "4px 2px 6px #000",
             textDecoration: "none",
-            textAlign: "center",
           }}
           component={RouterLink}
           to="/"
@@ -92,7 +57,31 @@ const Header = () => {
         </Typography>
 
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          {/* Right side elements, also wrapped in a Box for consistency */}
+          {user && (
+            <>
+              <Button color="inherit" component={RouterLink} to="/products">
+                Produits
+              </Button>
+
+              <Button
+                color="inherit"
+                component={RouterLink}
+                to="/products/tennis"
+              >
+                Utilisateurs
+              </Button>
+              <Button
+                color="inherit"
+                component={RouterLink}
+                to="/products/natation"
+              >
+                Commandes
+              </Button>
+            </>
+          )}
+        </Box>
+
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           {user && basket.length > 0 && (
             <Button color="inherit" component={RouterLink} to="/basket">
               Basket ({basket.length})
