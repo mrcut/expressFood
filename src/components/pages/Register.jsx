@@ -21,14 +21,14 @@ const Register = () => {
     if (!validator.isEmail(userRegister.email)) {
       tempErrors.email = "Email invalide";
     }
-    if (userRegister.nom === "") {
-      tempErrors.nom = "Nom est requis";
+    if (userRegister.firstname === "") {
+      tempErrors.firstname = "firstname est requis";
     }
-    if (userRegister.prenom === "") {
-      tempErrors.prenom = "Prénom est requis";
+    if (userRegister.lastname === "") {
+      tempErrors.lastname = "Prénom est requis";
     }
-    if (userRegister.mdp === "") {
-      tempErrors.mdp = "Mot de passe est requis";
+    if (userRegister.password === "") {
+      tempErrors.password = "Mot de passe est requis";
     }
     if (userRegister.address === "") {
       tempErrors.address = "Adresse est requise";
@@ -77,37 +77,37 @@ const Register = () => {
               variant="outlined"
               margin="normal"
               fullWidth
-              name="prenom"
+              name="lastname"
               label="Prénom"
-              id="prenom"
-              value={userRegister.prenom}
+              id="lastname"
+              value={userRegister.lastname}
               onChange={(e) =>
                 setUserRegister((prevUserRegister) => ({
                   ...prevUserRegister,
-                  prenom: e.target.value,
+                  lastname: e.target.value,
                 }))
               }
               required
-              error={Boolean(errors.prenom)}
-              helperText={errors.prenom}
+              error={Boolean(errors.lastname)}
+              helperText={errors.lastname}
             />
             <TextField
               variant="outlined"
               margin="normal"
               fullWidth
-              name="nom"
-              label="Nom"
-              id="nom"
-              value={userRegister.nom}
+              name="firstname"
+              label="firstname"
+              id="firstname"
+              value={userRegister.firstname}
               onChange={(e) =>
                 setUserRegister((prevUserRegister) => ({
                   ...prevUserRegister,
-                  nom: e.target.value,
+                  firstname: e.target.value,
                 }))
               }
               required
-              error={Boolean(errors.nom)}
-              helperText={errors.nom}
+              error={Boolean(errors.firstname)}
+              helperText={errors.firstname}
             />
             <TextField
               variant="outlined"
@@ -164,20 +164,20 @@ const Register = () => {
               variant="outlined"
               margin="normal"
               fullWidth
-              name="mdp"
+              name="password"
               label="Mot de passe"
               type="password"
-              id="mdp"
-              value={userRegister.mdp}
+              id="password"
+              value={userRegister.password}
               onChange={(e) =>
                 setUserRegister((prevUserRegister) => ({
                   ...prevUserRegister,
-                  mdp: e.target.value,
+                  password: e.target.value,
                 }))
               }
               required
-              error={Boolean(errors.mdp)}
-              helperText={errors.mdp}
+              error={Boolean(errors.password)}
+              helperText={errors.password}
             />
 
             <Button
