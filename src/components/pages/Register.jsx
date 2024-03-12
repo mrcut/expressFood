@@ -77,26 +77,8 @@ const Register = () => {
               variant="outlined"
               margin="normal"
               fullWidth
-              name="lastname"
-              label="Prénom"
-              id="lastname"
-              value={userRegister.lastname}
-              onChange={(e) =>
-                setUserRegister((prevUserRegister) => ({
-                  ...prevUserRegister,
-                  lastname: e.target.value,
-                }))
-              }
-              required
-              error={Boolean(errors.lastname)}
-              helperText={errors.lastname}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
               name="firstname"
-              label="firstname"
+              label="Prénom"
               id="firstname"
               value={userRegister.firstname}
               onChange={(e) =>
@@ -109,6 +91,25 @@ const Register = () => {
               error={Boolean(errors.firstname)}
               helperText={errors.firstname}
             />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              name="lastname"
+              label="Nom"
+              id="lastname"
+              value={userRegister.lastname}
+              onChange={(e) =>
+                setUserRegister((prevUserRegister) => ({
+                  ...prevUserRegister,
+                  lastname: e.target.value,
+                }))
+              }
+              required
+              error={Boolean(errors.lastname)}
+              helperText={errors.lastname}
+            />
+
             <TextField
               variant="outlined"
               margin="normal"
