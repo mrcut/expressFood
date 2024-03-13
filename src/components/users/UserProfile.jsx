@@ -17,7 +17,7 @@ const UserProfile = () => {
   useEffect(() => {
     if (user) {
       axios
-        .get(`http://localhost:5003/UsersList/${user._id}`, {
+        .get(`http://localhost:5003/User/${user._id}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${user.token}`,

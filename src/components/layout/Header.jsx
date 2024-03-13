@@ -1,14 +1,16 @@
-import { useState } from "react";
-import { AccountCircleRounded } from "@mui/icons-material";
+import React, { useState } from "react";
 import {
   AppBar,
-  Box,
+  Toolbar,
+  Typography,
   Button,
   Menu,
   MenuItem,
-  Toolbar,
-  Typography,
+  Box,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
+import { AccountCircleRounded } from "@mui/icons-material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useBasket } from "../contexts/BasketContext";
@@ -18,6 +20,8 @@ const Header = () => {
   const { user, setUser } = useAuth();
   const { basket } = useBasket();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,59 +41,45 @@ const Header = () => {
   const adminMenuItems = [
     { label: "Liste des Produits", path: "/products" },
     { label: "Liste des Users", path: "/users" },
+    { label: "Liste des Commandes", path: "/orders" },
   ];
 
   return (
     <AppBar position="fixed" color="info">
       <Toolbar sx={{ justifyContent: "space-between", alignItems: "center" }}>
         <Typography
-          variant="h5"
-          sx={{
-            fontWeight: "bold",
-            color: "white",
-            textShadow: "4px 2px 6px #000",
-            textDecoration: "none",
-          }}
+          variant="h6"
+          noWrap
           component={RouterLink}
           to="/"
+          sx={{
+            flexGrow: 1,
+            display: { xs: "none", sm: "block", md: "block" },
+            fontWeight: "bold",
+            color: "inherit",
+            textDecoration: "none",
+          }}
         >
           Ipssi Express Food
         </Typography>
 
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          {user && user.role === "admin" && (
-            <>
-              <Button color="inherit" component={RouterLink} to="/products">
-                Produits
-              </Button>
+        {user && basket.length > 0 && !isMobile && (
+          <Button color="inherit" component={RouterLink} to="/basket">
+            Basket ({basket.length})
+          </Button>
+        )}
 
-              <Button color="inherit" component={RouterLink} to="/users">
-                Utilisateurs
-              </Button>
-              <Button color="inherit" component={RouterLink} to="/orders/">
-                Commandes
-              </Button>
-            </>
-          )}
-        </Box>
-
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          {user && basket.length > 0 && (
-            <Button color="inherit" component={RouterLink} to="/basket">
-              Basket ({basket.length})
+        {user && (
+          <>
+            <Button color="inherit" onClick={handleMenu}>
+              <AccountCircleRounded sx={{ fontSize: "large" }} />
             </Button>
-          )}
-
-          {user && (
-            <>
-              <Button color="inherit" onClick={handleMenu}>
-                <AccountCircleRounded sx={{ fontSize: "large" }} />
-              </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              {!isMobile && (
                 <MenuItem
                   onClick={handleClose}
                   component={RouterLink}
@@ -97,29 +87,29 @@ const Header = () => {
                 >
                   Account
                 </MenuItem>
-                <MenuItem
-                  onClick={handleClose}
-                  component={RouterLink}
-                  to="/orders"
-                >
-                  Commandes
-                </MenuItem>
-                {user.role === "admin" &&
-                  adminMenuItems.map((item) => (
-                    <MenuItem
-                      key={item.label}
-                      onClick={handleClose}
-                      component={RouterLink}
-                      to={item.path}
-                    >
-                      {item.label}
-                    </MenuItem>
-                  ))}
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
-            </>
-          )}
-        </Box>
+              )}
+              <MenuItem
+                onClick={handleClose}
+                component={RouterLink}
+                to="/orders"
+              >
+                Commandes
+              </MenuItem>
+              {user.role === "admin" &&
+                adminMenuItems.map((item) => (
+                  <MenuItem
+                    key={item.label}
+                    onClick={handleClose}
+                    component={RouterLink}
+                    to={item.path}
+                  >
+                    {item.label}
+                  </MenuItem>
+                ))}
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </>
+        )}
       </Toolbar>
     </AppBar>
   );

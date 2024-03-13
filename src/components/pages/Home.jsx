@@ -39,24 +39,23 @@ const Home = () => {
   const desserts = products.filter((product) => product.type === "dessert");
 
   return (
-    <Container maxWidth="md">
-      <Typography variant="h4" gutterBottom>
+    <Container>
+      <Typography variant="h3" gutterBottom>
         Menu du jour
       </Typography>
 
       <Typography variant="h4" gutterBottom>
         Nos Plats
       </Typography>
-      <Grid container spacing={4}>
+      <Grid container spacing={2}>
         {plats.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}
       </Grid>
-
       <Typography variant="h4" gutterBottom style={{ marginTop: "2rem" }}>
         Nos Desserts
       </Typography>
-      <Grid container spacing={4}>
+      <Grid container spacing={2}>
         {desserts.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}

@@ -1,6 +1,4 @@
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
-  Avatar,
   Button,
   Container,
   FormControl,
@@ -53,10 +51,6 @@ const ProductAdd = () => {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <ShoppingCartIcon />
-        </Avatar>
-
         <Typography component="h1" variant="h5">
           Ajouter un Nouveau Produit
         </Typography>

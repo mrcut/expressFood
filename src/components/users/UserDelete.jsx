@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Container, Typography, Button } from "@mui/material";
@@ -12,7 +13,7 @@ const UserDelete = () => {
       try {
         const userStored = localStorage.getItem("user");
         const token = userStored ? JSON.parse(userStored).token : null;
-  
+
         if (token) {
           await axios.delete(`http://localhost:5003/UserDelete/${id}`, {
             headers: {
@@ -28,10 +29,9 @@ const UserDelete = () => {
         console.error("Error deleting user:", error.message);
       }
     };
-  
+
     deleteUser();
   }, [id, navigate]);
-  
 
   return (
     <Container>
@@ -41,7 +41,13 @@ const UserDelete = () => {
       <Typography variant="body1">
         L'utilisateur a été supprimé avec succès.
       </Typography>
-      <Button component={Link} to="/users" variant="contained" color="primary" sx={{ marginTop: 2 }}>
+      <Button
+        component={Link}
+        to="/users"
+        variant="contained"
+        color="primary"
+        sx={{ marginTop: 2 }}
+      >
         Retour à la Liste des Utilisateurs
       </Button>
     </Container>
