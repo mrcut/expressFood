@@ -14,34 +14,37 @@ import {
   TextField,
 } from "@mui/material";
 import axios from "axios";
+import { useAuth } from "../contexts/AuthProvider";
 
 const DelivererEdit = () => {
+  const { user } = useAuth();
   const { id } = useParams();
-  const [deliverer, setDeliverer] = useState({});
+  const navigate = useNavigate();
+
   const [newValues, setNewValues] = useState({
     lastname: "",
     firstname: "",
     statut: "",
     position: "",
   });
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDelivererDetails = async () => {
-      try {
-        const userStored = localStorage.getItem("user");
-        const token = userStored ? JSON.parse(userStored).token : null;
+      if (!user) {
+        console.error("Deliverer not found");
+        return;
+      }
 
+      try {
         const response = await axios.get(
-          `http://localhost:5003/DelivererList/${id}`,
+          `http://localhost:5003/Deliverer/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${user.token}`,
             },
           }
         );
-        setDeliverer(response.data);
         setNewValues({
           lastname: response.data.lastname,
           firstname: response.data.firstname,
@@ -54,7 +57,7 @@ const DelivererEdit = () => {
     };
 
     fetchDelivererDetails();
-  }, [id]);
+  }, [id, user]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -64,7 +67,7 @@ const DelivererEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5003/DelivererUpdate/${id}`, newValues);
+      await axios.put(`http://localhost:5003/DelivererEdit/${id}`, newValues);
       navigate("/users");
     } catch (error) {
       console.error("Error updating deliverer:", error.message);
@@ -113,9 +116,10 @@ const DelivererEdit = () => {
                     value={newValues.statut || ""}
                     onChange={handleInputChange}
                   >
-                    <MenuItem value="Statut 1">Statut 1</MenuItem>
-                    <MenuItem value="Statut 2">Statut 2</MenuItem>
-                    <MenuItem value="Statut 3">Statut 3</MenuItem>
+                    <MenuItem value="free">Libre</MenuItem>
+                    <MenuItem value="inDelivery">
+                      En cours de livraison
+                    </MenuItem>
                   </Select>
                 </FormControl>
                 <TextField

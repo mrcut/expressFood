@@ -41,7 +41,7 @@ const UsersList = () => {
   useEffect(() => {
     const fetchDeliverers = async () => {
       try {
-        const response = await fetch("http://localhost:5003/DelivererList", {
+        const response = await fetch("http://localhost:5003/DeliverersList", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const UsersList = () => {
     };
 
     if (user) {
-        fetchDeliverers();
+      fetchDeliverers();
     } else {
       navigate("/login");
     }
@@ -66,7 +66,7 @@ const UsersList = () => {
 
   return (
     <Container>
-              <Typography variant="h5" sx={{ my: 3 }}>
+      <Typography variant="h5" sx={{ my: 3 }}>
         Liste des Utilisateurs
       </Typography>
       <Grid container spacing={2}>
@@ -74,8 +74,6 @@ const UsersList = () => {
           <UserCard key={user._id} user={user} />
         ))}
       </Grid>
-
-
 
       <Button
         variant="contained"
@@ -86,7 +84,7 @@ const UsersList = () => {
         Ajouter un Utilisateur
       </Button>
       <Typography variant="h5" sx={{ my: 3 }}>
-        Liste des livreur
+        Liste des livreurs
       </Typography>
 
       <Grid container spacing={2}>

@@ -20,7 +20,7 @@ const UserCard = ({ user }) => {
           <Typography color="textSecondary">{`Téléphone: ${user.phone}`}</Typography>
         </CardContent>
         <CardActions>
-          {["Detail", "Edit", "Delete"].map((action, index) => (
+          {["Edit", "Delete"].map((action, index) => (
             <Link
               key={index}
               to={`/${action.toLowerCase()}User/${user._id}`}

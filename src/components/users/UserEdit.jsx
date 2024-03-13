@@ -26,8 +26,6 @@ const UserEdit = () => {
     address: "",
     password: "",
     role: "",
-
-
   });
   const navigate = useNavigate();
 
@@ -37,7 +35,7 @@ const UserEdit = () => {
 
     if (token) {
       axios
-        .get(`http://localhost:5003/UsersList/${id}`, {
+        .get(`http://localhost:5003/User/${id}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -73,26 +71,24 @@ const UserEdit = () => {
     try {
       const userStored = localStorage.getItem("user");
       const token = userStored ? JSON.parse(userStored).token : null;
-  
+
       if (!token) {
         console.error("Token not found");
         return;
       }
-  
+
       await axios.put(`http://localhost:5003/UserEdit/${id}`, newValues, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
-      
-  
+
       navigate("/users");
     } catch (error) {
       console.error("Error updating user:", error.message);
     }
   };
-  
 
   return (
     <Container>
@@ -180,10 +176,7 @@ const UserEdit = () => {
                     onChange={handleInputChange}
                   >
                     <MenuItem value="admin">Admin</MenuItem>
-                    <MenuItem value="adherent">Adherent</MenuItem>
-                    <MenuItem value="commercant">Commercant</MenuItem>
-
-                    <MenuItem value="user">User</MenuItem>
+                    <MenuItem value="client">Client</MenuItem>
                   </Select>
                 </FormControl>
               </CardContent>

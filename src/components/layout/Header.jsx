@@ -57,17 +57,13 @@ const Header = () => {
         </Typography>
 
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          {user && (
+          {user && user.role === "admin" && (
             <>
               <Button color="inherit" component={RouterLink} to="/products">
                 Produits
               </Button>
 
-              <Button
-                color="inherit"
-                component={RouterLink}
-                to="/users"
-              >
+              <Button color="inherit" component={RouterLink} to="/users">
                 Utilisateurs
               </Button>
               <Button color="inherit" component={RouterLink} to="/orders/">
@@ -100,6 +96,13 @@ const Header = () => {
                   to="/profile"
                 >
                   Account
+                </MenuItem>
+                <MenuItem
+                  onClick={handleClose}
+                  component={RouterLink}
+                  to="/orders"
+                >
+                  Commandes
                 </MenuItem>
                 {user.role === "admin" &&
                   adminMenuItems.map((item) => (
