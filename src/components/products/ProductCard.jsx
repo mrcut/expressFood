@@ -1,16 +1,23 @@
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
-  Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   CardMedia,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
-import PropTypes from "prop-types";
+import React from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
 
-const ProductCard = ({ product, onAddToCart }) => (
-  <Grid item xs={12} sm={6} md={4} lg={3} style={{ display: "flex" }}>
+const user = useAuth;
+
+const ProductCard = ({ product }) => (
+  <Grid item xs={12} sm={6} md={4} lg={3}>
     <Card>
       <CardActionArea>
         <CardMedia
@@ -29,30 +36,30 @@ const ProductCard = ({ product, onAddToCart }) => (
           <Typography variant="body1" color="text.primary">
             {product.price} €
           </Typography>
-          {onAddToCart && (
-            <Button
-              size="small"
-              color="primary"
-              onClick={() => onAddToCart(product)}
-            >
-              Add To Cart
-            </Button>
-          )}
         </CardContent>
       </CardActionArea>
+      {user && user.role === "admin" && (
+        <CardActions>
+          <Link
+            to={`/editProduct/${product._id}`}
+            style={{ textDecoration: "none" }}
+          >
+            <IconButton color="primary" aria-label="edit product">
+              <EditIcon />
+            </IconButton>
+          </Link>
+          <Link
+            to={`/deleteProduct/${product._id}`}
+            style={{ textDecoration: "none" }}
+          >
+            <IconButton color="secondary" aria-label="delete product">
+              <DeleteIcon />
+            </IconButton>
+          </Link>
+        </CardActions>
+      )}
     </Card>
   </Grid>
 );
-
-ProductCard.propTypes = {
-  product: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    _id: PropTypes.string.isRequired,
-  }).isRequired,
-  onAddToCart: PropTypes.func,
-};
 
 export default ProductCard;

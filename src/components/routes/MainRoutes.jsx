@@ -5,13 +5,11 @@ import Login from "../pages/Login";
 import Home from "../pages/Home";
 
 import UserProfile from "../users/UserProfile";
-import UsersList from "../users/ListUser";
+import UsersList from "../users/UserList";
 import UserEdit from "../users/UserEdit";
 import UserDelete from "../users/UserDelete";
-import UserDetail from "../users/UserDetails";
 
 import DelivererAdd from "../deliverers/DelivererAdd";
-import DelivererDetail from "../deliverers/DelivererDetail";
 import DelivererEdit from "../deliverers/DelivererEdit";
 import DelivererDelete from "../deliverers/DelivererDelete";
 
@@ -48,29 +46,14 @@ const MainRoutes = () => {
           </GuestRoute>
         }
       />
-      {user && (
-        <>
-          <Route path="/" element={<Home />} />
-        </>
-      )}
-      <Route path="/profile/:id" element={<UserProfile />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="*" element={<Navigate to="/login" />} />
-      <Route path="/users" element={<UsersList />} />
-      <Route path="/EditUser/:id" element={<UserEdit />} />
-      <Route path="/deleteUser/:id" element={<UserDelete />} />
-      <Route path="/detailUser/:id" element={<UserDetail />} />
-      <Route path="/addDeliverer" element={<DelivererAdd />} />
-      <Route path="/detailDeliverer/:id" element={<DelivererDetail />} />
-      <Route path="/EditDeliverer/:id" element={<DelivererEdit />} />
-      <Route path="/DeleteDeliverer/:id" element={<DelivererDelete />} />
-      element=
-      {
-        <GuestRoute>
-          <Register />
-        </GuestRoute>
-      }
+      <Route
+        path="/register"
+        element={
+          <GuestRoute>
+            <Register />
+          </GuestRoute>
+        }
+      />
       <Route
         path="/"
         element={
@@ -140,6 +123,57 @@ const MainRoutes = () => {
         element={
           <AdminRoute>
             <ProductDelete />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/users"
+        element={
+          <AdminRoute>
+            <UsersList />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/EditUser/:id"
+        element={
+          <ProtectedRoute>
+            <UserEdit />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/deleteUser/:id"
+        element={
+          <AdminRoute>
+            <UserDelete />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/addDeliverer"
+        element={
+          <AdminRoute>
+            <DelivererAdd />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/editDeliverer/:id"
+        element={
+          <AdminRoute>
+            <DelivererEdit />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/DeleteDeliverer/:id"
+        element={
+          <AdminRoute>
+            <DelivererDelete />
           </AdminRoute>
         }
       />

@@ -85,14 +85,14 @@ const DelivererAdd = () => {
             <InputLabel id="statut-label">Statut</InputLabel>
             <Select
               labelId="statut-label"
+              label="Statut"
               id="statut"
               name="statut"
               value={newDeliverer.statut}
               onChange={handleInputChange}
             >
-              <MenuItem value="statut1">Statut 1</MenuItem>
-              <MenuItem value="statut2">Statut 2</MenuItem>
-              <MenuItem value="statut3">Statut 3</MenuItem>
+              <MenuItem value="free">Libre</MenuItem>
+              <MenuItem value="inDelivery">En cours de livraison</MenuItem>
             </Select>
           </FormControl>
           <TextField

@@ -45,7 +45,7 @@ const Home = () => {
       </Typography>
 
       <Typography variant="h3" align="center" gutterBottom>
-      Nos Plats
+        Nos Plats
       </Typography>
       <Grid container spacing={4} justifyContent="center">
         {plats.map((product) => (

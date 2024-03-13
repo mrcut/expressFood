@@ -7,16 +7,17 @@ import { useAuth } from "../contexts/AuthProvider";
 const UserProfile = () => {
   const { user, setUser } = useAuth();
   const [newValues, setNewValues] = useState({
-    nom: "",
-    prenom: "",
-    tel: "",
+    firstname: "",
+    lastname: "",
+    phone: "",
     email: "",
+    address: "",
   });
 
   useEffect(() => {
     if (user) {
       axios
-        .get(`http://localhost:5003/UsersList/${user._id}`, {
+        .get(`http://localhost:5003/User/${user._id}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${user.token}`,
@@ -24,10 +25,11 @@ const UserProfile = () => {
         })
         .then((response) => {
           setNewValues({
-            nom: response.data.nom || "",
-            prenom: response.data.prenom || "",
-            tel: response.data.tel || "",
+            firstname: response.data.firstname || "",
+            lastname: response.data.lastname || "",
+            phone: response.data.phone || "",
             email: response.data.email || "",
+            address: response.data.address || "",
           });
         })
         .catch((error) => {
@@ -38,6 +40,7 @@ const UserProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setNewValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
@@ -46,7 +49,7 @@ const UserProfile = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5003/UserModifier/${user._id}`,
+        `http://localhost:5003/UserEdit/${user._id}`,
         newValues,
         {
           headers: {
@@ -95,10 +98,10 @@ const UserProfile = () => {
           </Grid>
           <Grid item xs={12}>
             <TextField
-              id="nom"
-              name="nom"
+              id="lastname"
+              name="lastname"
               label="Nom"
-              value={newValues.nom}
+              value={newValues.lastname}
               variant="outlined"
               fullWidth
               onChange={handleChange}
@@ -107,10 +110,10 @@ const UserProfile = () => {
 
           <Grid item xs={12}>
             <TextField
-              id="prenom"
-              name="prenom"
+              id="firstname"
+              name="firstname"
               label="Prénom"
-              value={newValues.prenom}
+              value={newValues.firstname}
               variant="outlined"
               onChange={handleChange}
               fullWidth
@@ -119,10 +122,21 @@ const UserProfile = () => {
 
           <Grid item xs={12}>
             <TextField
-              id="tel"
-              name="tel"
+              id="phone"
+              name="phone"
               label="Téléphone"
-              value={newValues.tel}
+              value={newValues.phone}
+              variant="outlined"
+              fullWidth
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="address"
+              name="address"
+              label="Adresse"
+              value={newValues.address}
               variant="outlined"
               fullWidth
               onChange={handleChange}

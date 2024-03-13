@@ -1,35 +1,18 @@
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Container,
-  Grid,
-  IconButton,
-  Typography,
-} from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import { useAuth } from "../contexts/AuthProvider";
-import { useBasket } from "../contexts/BasketContext";
+import ProductCard from "../products/ProductCard";
+import { useNavigate } from "react-router";
 
-const ProductList = ({ type }) => {
+const Home = () => {
   const [products, setProducts] = useState([]);
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { basket, addToBasket, removeFromBasket } = useBasket();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         if (user) {
-          const storedBasket = localStorage.getItem("basket");
-          const basket = storedBasket ? JSON.parse(storedBasket) : [];
-
           const response = await fetch("http://localhost:5003/ProductsList", {
             method: "GET",
             headers: {
@@ -44,39 +27,25 @@ const ProductList = ({ type }) => {
             );
           }
           const data = await response.json();
-
-          let filteredProducts = data.filter(
-            (product) => !basket.includes(product._id)
-          );
-
-          if (type) {
-            filteredProducts = filteredProducts.filter(
-              (product) => product.type === type
-            );
-          }
-
-          setProducts(filteredProducts);
+          setProducts(data);
         }
       } catch (error) {
-        console.error("Erreur:", error);
+        console.error("Error:", error);
       }
     };
 
     fetchProducts();
-  }, [user, type]);
+  }, [user]);
 
-  const getQuantity = (productId) => {
-    const product = basket.find((p) => p._id === productId);
-    return product ? product.quantity : 0;
-  };
+  const plats = products.filter((product) => product.type === "plat");
+  const desserts = products.filter((product) => product.type === "dessert");
 
   return (
-    <Container>
-      <Typography variant="h5" sx={{ my: 3 }}>
-        Liste des Produits
+    <Container style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
+      <Typography variant="h3" align="center" gutterBottom>
+        Listes des produits
       </Typography>
-
-      {user?.role === "admin" && (
+      <Grid container justifyContent="center">
         <Button
           variant="contained"
           color="primary"
@@ -85,69 +54,31 @@ const ProductList = ({ type }) => {
         >
           Ajouter un Produit
         </Button>
-      )}
-      <Grid container spacing={2}>
-        {products.map((product) => (
-          <Grid item xs={12} sm={6} md={4} key={product._id}>
-            <Card
-              sx={{ height: "100%", display: "flex", flexDirection: "column" }}
-            >
-              <CardContent sx={{ flex: 1 }}>
-                <Typography
-                  variant="h6"
-                  component="div"
-                  sx={({ mb: 1 }, { textAlign: "center" })}
-                >
-                  {product.name}
-                </Typography>
+      </Grid>
 
-                <Typography
-                  color="textSecondary"
-                  sx={({ mb: 1 }, { textAlign: "center" })}
-                >
-                  {product.price} €
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  onClick={() => addToBasket(product)}
-                  startIcon={<AddCircleOutlineIcon />}
-                  sx={{ mx: 1 }}
-                />
-                <Typography>{getQuantity(product._id)}</Typography>
-                <Button
-                  onClick={() => removeFromBasket(product._id)}
-                  startIcon={<RemoveCircleOutlineIcon />}
-                  sx={{ mx: 1 }}
-                />
-
-                {user?.role === "admin" && (
-                  <>
-                    <Link
-                      to={`/editProduct/${product._id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <IconButton color="primary" aria-label="edit product">
-                        <EditIcon />
-                      </IconButton>
-                    </Link>
-                    <Link
-                      to={`/deleteProduct/${product._id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <IconButton color="secondary" aria-label="delete product">
-                        <DeleteIcon />
-                      </IconButton>
-                    </Link>
-                  </>
-                )}
-              </CardActions>
-            </Card>
-          </Grid>
+      <Typography variant="h3" align="center" gutterBottom>
+        Tous les Plats
+      </Typography>
+      <Grid container spacing={4} justifyContent="center">
+        {plats.map((product) => (
+          <ProductCard key={product._id} product={product} />
+        ))}
+      </Grid>
+      <Typography
+        variant="h4"
+        align="center"
+        gutterBottom
+        style={{ marginTop: "2rem" }}
+      >
+        Tous les Desserts
+      </Typography>
+      <Grid container spacing={4} justifyContent="center">
+        {desserts.map((product) => (
+          <ProductCard key={product._id} product={product} />
         ))}
       </Grid>
     </Container>
   );
 };
 
-export default ProductList;
+export default Home;

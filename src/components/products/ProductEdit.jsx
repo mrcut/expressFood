@@ -33,7 +33,6 @@ const ProductEdit = () => {
   });
 
   useEffect(() => {
-    // Fetching product data
     const fetchProduct = async () => {
       if (!user) {
         console.error("User not found");
@@ -42,7 +41,7 @@ const ProductEdit = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5003/ProductsList/${id}`,
+          `http://localhost:5003/Product/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
