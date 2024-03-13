@@ -66,7 +66,7 @@ const Header = () => {
               <Button
                 color="inherit"
                 component={RouterLink}
-                to="/products/tennis"
+                to="/users"
               >
                 Utilisateurs
               </Button>
