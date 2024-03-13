@@ -4,14 +4,15 @@ import { useAuth } from "../contexts/AuthProvider";
 import ProductCard from "../products/ProductCard";
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
+
   const { user } = useAuth();
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         if (user) {
-          const response = await fetch("http://localhost:5003/ProductsList", {
+          const response = await fetch("http://localhost:5003/randomProducts", {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -20,12 +21,12 @@ const Home = () => {
           });
 
           if (!response.ok) {
-            throw new Error(
-              "Network response was not ok " + response.statusText
-            );
+            throw new Error("Network response was not ok " + response.statusText);
           }
+
           const data = await response.json();
           setProducts(data);
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -37,11 +38,10 @@ const Home = () => {
 
   const plats = products.filter((product) => product.type === "plat");
   const desserts = products.filter((product) => product.type === "dessert");
-
   return (
     <Container style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
       <Typography variant="h3" align="center" gutterBottom>
-        Menu du jour
+      Menu du jour
       </Typography>
 
       <Typography variant="h3" align="center" gutterBottom>
