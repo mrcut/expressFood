@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import { useAuth } from "../contexts/AuthProvider";
 import ProductCard from "../products/ProductCard";
+import { useNavigate } from "react-router";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -43,6 +45,16 @@ const Home = () => {
       <Typography variant="h3" align="center" gutterBottom>
         Listes des produits
       </Typography>
+      <Grid container justifyContent="center">
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ mb: 3 }}
+          onClick={() => navigate("/addProduct")}
+        >
+          Ajouter un Produit
+        </Button>
+      </Grid>
 
       <Typography variant="h3" align="center" gutterBottom>
         Tous les Plats

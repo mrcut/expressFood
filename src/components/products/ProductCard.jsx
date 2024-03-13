@@ -1,16 +1,16 @@
-import React from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   CardMedia,
-  Typography,
-  CardActions,
-  IconButton,
   Grid,
+  IconButton,
+  Typography,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 
