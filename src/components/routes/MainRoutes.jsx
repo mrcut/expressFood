@@ -48,8 +48,6 @@ const MainRoutes = () => {
           </GuestRoute>
         }
       />
-
-
       {user && (
         <>
           <Route path="/" element={<Home />} />
@@ -60,23 +58,19 @@ const MainRoutes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="*" element={<Navigate to="/login" />} />
       <Route path="/users" element={<UsersList />} />
-      
       <Route path="/EditUser/:id" element={<UserEdit />} />
       <Route path="/deleteUser/:id" element={<UserDelete />} />
       <Route path="/detailUser/:id" element={<UserDetail />} />
-
       <Route path="/addDeliverer" element={<DelivererAdd />} />
       <Route path="/detailDeliverer/:id" element={<DelivererDetail />} />
       <Route path="/EditDeliverer/:id" element={<DelivererEdit />} />
       <Route path="/DeleteDeliverer/:id" element={<DelivererDelete />} />
-
-
-        element={
-          <GuestRoute>
-            <Register />
-          </GuestRoute>
-        }
-      />
+      element=
+      {
+        <GuestRoute>
+          <Register />
+        </GuestRoute>
+      }
       <Route
         path="/"
         element={
@@ -109,7 +103,6 @@ const MainRoutes = () => {
           </ProtectedRoute>
         }
       />
-
       <Route
         path="/profile"
         element={
@@ -126,7 +119,6 @@ const MainRoutes = () => {
           </ProtectedRoute>
         }
       />
-
       <Route
         path="/addProduct"
         element={
@@ -151,7 +143,6 @@ const MainRoutes = () => {
           </AdminRoute>
         }
       />
-
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
