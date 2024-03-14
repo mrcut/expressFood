@@ -101,7 +101,7 @@ const Header = () => {
               <MenuItem
                 onClick={handleClose}
                 component={RouterLink}
-                to="/checkout"
+                to="/orders"
               >
                 Commandes
               </MenuItem>
