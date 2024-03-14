@@ -55,18 +55,15 @@ const Checkout = () => {
         "http://localhost:5003/OrderAdd",
         {
           items: basketItems,
-          totalPrice: finalTotalPrice,
           date: currentDate,
-          deliverer: {
-            _id: assignedDeliverer._id,
-            name: `${assignedDeliverer.firstname} ${assignedDeliverer.lastname}`,
-            position: assignedDeliverer.position,
-          },
-          email: user.email, // Replace with actual customer email
+          price: finalTotalPrice,
+          delivererName: assignedDeliverer.firstname,
+          email: user.email,
         }
       );
-
-      clearBasket(); // Clear the basket after successful order placement
+      console.log(assignedDeliverer.firstname);
+      console.log(finalTotalPrice);
+      //   clearBasket(); // Clear the basket after successful order placement
 
       // Redirect to the tracking page with the order and deliverer information
       navigate("/orders", {

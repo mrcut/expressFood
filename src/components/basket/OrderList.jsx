@@ -1,33 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Typography,
   Container,
   List,
   ListItem,
   ListItemText,
   Paper,
-  Button,
+  Typography,
 } from "@mui/material";
-import axios from "axios";
 import { useAuth } from "../contexts/AuthProvider";
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(0);
-  const { user, token } = useAuth();
+  const [timeLeft, setTimeLeft] = useState(null); // Initialize with null
+  const { user } = useAuth();
+
   useEffect(() => {
     const fetchOrders = async () => {
-      if (!user || !user.email) return; // Ensure user and user.email are present
+      if (!user || !user.email) return;
 
       try {
         const response = await fetch(
-          `http://localhost:5003/Order/${user.email}`,
+          `http://localhost:5003/Order/email/${user.email}`,
           {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // Use token directly if it's separate from the user object
+              Authorization: `Bearer ${user.token}`,
             },
           }
         );
@@ -36,41 +34,42 @@ const OrderList = () => {
           throw new Error("Failed to fetch orders");
         }
 
-        const data = await response.json(); // Extract JSON from the response
-        setOrders(data); // Assuming setOrders is your state setter function
+        const data = await response.json();
+        setOrders(data);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
     };
 
     fetchOrders();
-    // Adjust the dependency to match the actual variable used. If `user.email` changes, re-fetch orders.
-  }, [user?.email, token]);
+  }, [user?.email, user?.token]);
 
   useEffect(() => {
-    if (selectedOrder && selectedOrder.orderDate) {
-      const orderTime = new Date(selectedOrder.orderDate).getTime();
-      const updateTimeLeft = () => {
-        const currentTime = new Date().getTime();
-        const diff = Math.max(
-          0,
-          orderTime + selectedOrder.estimatedDeliveryTime * 60000 - currentTime
-        );
-        setTimeLeft(Math.floor(diff / 1000));
-      };
-
-      updateTimeLeft();
-      const intervalId = setInterval(updateTimeLeft, 1000);
-
-      return () => clearInterval(intervalId);
+    if (!selectedOrder) {
+      setTimeLeft(null);
+      return;
     }
-  }, [selectedOrder]);
 
-  const formatTime = () => {
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  };
+    const endTime = new Date(selectedOrder.date).getTime() + 20 * 60000; // Add 20 minutes
+    const updateTimer = () => {
+      const now = new Date().getTime();
+      const distance = endTime - now;
+
+      if (distance < 0) {
+        setTimeLeft("Livraison estimée effectuée.");
+        clearInterval(timer);
+      } else {
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        setTimeLeft(`${minutes}m ${seconds}s`);
+      }
+    };
+
+    updateTimer(); // Update immediately to avoid delay
+    const timer = setInterval(updateTimer, 1000);
+
+    return () => clearInterval(timer);
+  }, [selectedOrder]);
 
   return (
     <Container>
@@ -80,16 +79,33 @@ const OrderList = () => {
       <List>
         {orders?.map((order) => (
           <Paper
-            key={order.id}
+            key={order._id}
             elevation={2}
             style={{ marginBottom: "10px", padding: "15px" }}
           >
             <ListItem button onClick={() => setSelectedOrder(order)}>
               <ListItemText
-                primary={`Commande ID: ${order.id}`}
-                secondary={`Date: ${new Date(
-                  order.date
-                ).toLocaleString()}, Total: ${order.price}€`}
+                primary={`Commande ID: ${order._id}`}
+                secondary={
+                  <>
+                    <Typography component="span" variant="body2">
+                      Date: {new Date(order.date).toLocaleDateString()}
+                    </Typography>
+                    <br />
+                    <Typography component="span" variant="body2">
+                      Prix Total: {order.totalprice}€{" "}
+                      {/* Ensure this matches your model */}
+                    </Typography>
+                    <br />
+                    <Typography component="span" variant="body2">
+                      Livreur: {order.delivererName}{" "}
+                    </Typography>
+                    <br />
+                    <Typography variant="subtitle1">
+                      Temps estimé avant livraison: {timeLeft}
+                    </Typography>
+                  </>
+                }
               />
             </ListItem>
           </Paper>
@@ -101,16 +117,10 @@ const OrderList = () => {
             Détails de la Commande
           </Typography>
           <Typography variant="subtitle1">
-            ID de la commande: {selectedOrder.id}
+            ID de la commande: {selectedOrder._id}
           </Typography>
-          <Typography variant="subtitle1">
-            Livreur: {selectedOrder.deliverer.firstname}{" "}
-            {selectedOrder.deliverer.lastname}
-          </Typography>
-          <Typography variant="subtitle1">
-            Temps estimé avant livraison: {formatTime()}
-          </Typography>
-          {/* Add any other information and controls related to the selected order */}
+
+          {/* Additional selected order details here */}
         </>
       )}
     </Container>

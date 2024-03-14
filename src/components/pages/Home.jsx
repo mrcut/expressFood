@@ -3,12 +3,10 @@ import { Container, Grid, Typography } from "@mui/material";
 import { useAuth } from "../contexts/AuthProvider";
 import ProductCard from "../products/ProductCard";
 
-
 const Home = (product) => {
   const [products, setProducts] = useState([]);
 
   const { user } = useAuth();
-  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -23,12 +21,13 @@ const Home = (product) => {
           });
 
           if (!response.ok) {
-            throw new Error("Network response was not ok " + response.statusText);
+            throw new Error(
+              "Network response was not ok " + response.statusText
+            );
           }
 
           const data = await response.json();
           setProducts(data);
-
         }
       } catch (error) {
         console.error("Error:", error);
@@ -43,7 +42,7 @@ const Home = (product) => {
   return (
     <Container style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
       <Typography variant="h3" align="center" gutterBottom>
-      Menu du jour
+        Menu du jour
       </Typography>
 
       <Typography variant="h3" align="center" gutterBottom>
