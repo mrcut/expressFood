@@ -16,7 +16,7 @@ const DelivererCard = ({ deliverer }) => {
           <Typography variant="h6" component="div" sx={{ mb: 1 }}>
             {`${deliverer.firstname} ${deliverer.lastname}`}
           </Typography>
-          <Typography color="textSecondary">{`Statut: ${deliverer.statut}`}</Typography>
+          <Typography color="textSecondary">{`Statut: ${deliverer.status}`}</Typography>
           <Typography color="textSecondary">{`Position: ${deliverer.position}`}</Typography>
         </CardContent>
         <CardActions>

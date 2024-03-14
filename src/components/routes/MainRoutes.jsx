@@ -1,23 +1,26 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
-import Register from "../pages/Register";
-import Login from "../pages/Login";
 import Home from "../pages/Home";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 
-import UserProfile from "../users/UserProfile";
-import UsersList from "../users/UserList";
-import UserEdit from "../users/UserEdit";
 import UserDelete from "../users/UserDelete";
+import UserEdit from "../users/UserEdit";
+import UsersList from "../users/UserList";
+import UserProfile from "../users/UserProfile";
 
 import DelivererAdd from "../deliverers/DelivererAdd";
-import DelivererEdit from "../deliverers/DelivererEdit";
 import DelivererDelete from "../deliverers/DelivererDelete";
+import DelivererEdit from "../deliverers/DelivererEdit";
 
-import ProductList from "../products/ProductList";
-import ProductAdd from "../products/ProductAdd";
-import ProductEdit from "../products/ProductEdit";
-import ProductDelete from "../products/ProductDelete";
+import Basket from "../basket/Basket";
 import NotFound from "../pages/NotFound";
+import ProductAdd from "../products/ProductAdd";
+import ProductDelete from "../products/ProductDelete";
+import ProductEdit from "../products/ProductEdit";
+import ProductList from "../products/ProductList";
+import Checkout from "../basket/Checkout";
+import OrderList from "../basket/OrderList";
 
 // Protected route component (hypothetical example)
 const ProtectedRoute = ({ children }) => {
@@ -150,7 +153,6 @@ const MainRoutes = () => {
           </AdminRoute>
         }
       />
-
       <Route
         path="/addDeliverer"
         element={
@@ -159,7 +161,6 @@ const MainRoutes = () => {
           </AdminRoute>
         }
       />
-
       <Route
         path="/editDeliverer/:id"
         element={
@@ -174,6 +175,30 @@ const MainRoutes = () => {
           <AdminRoute>
             <DelivererDelete />
           </AdminRoute>
+        }
+      />
+      <Route
+        path="/basket"
+        element={
+          <ProtectedRoute>
+            <Basket />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/checkout"
+        element={
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          <ProtectedRoute>
+            <OrderList />
+          </ProtectedRoute>
         }
       />
       <Route path="*" element={<NotFound />} />

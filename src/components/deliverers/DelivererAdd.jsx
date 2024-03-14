@@ -22,7 +22,7 @@ const DelivererAdd = () => {
   const [newDeliverer, setNewDeliverer] = useState({
     lastname: "",
     firstname: "",
-    statut: "",
+    status: "",
     position: "",
   });
   const navigate = useNavigate();
@@ -82,13 +82,13 @@ const DelivererAdd = () => {
             required
           />
           <FormControl fullWidth>
-            <InputLabel id="statut-label">Statut</InputLabel>
+            <InputLabel id="status-label">Statut</InputLabel>
             <Select
-              labelId="statut-label"
+              labelId="status-label"
               label="Statut"
-              id="statut"
-              name="statut"
-              value={newDeliverer.statut}
+              id="status"
+              name="status"
+              value={newDeliverer.status}
               onChange={handleInputChange}
             >
               <MenuItem value="free">Libre</MenuItem>

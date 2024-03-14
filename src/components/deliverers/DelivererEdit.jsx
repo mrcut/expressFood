@@ -24,7 +24,7 @@ const DelivererEdit = () => {
   const [newValues, setNewValues] = useState({
     lastname: "",
     firstname: "",
-    statut: "",
+    status: "",
     position: "",
   });
 
@@ -48,7 +48,7 @@ const DelivererEdit = () => {
         setNewValues({
           lastname: response.data.lastname,
           firstname: response.data.firstname,
-          statut: response.data.statut,
+          status: response.data.status,
           position: response.data.position,
         });
       } catch (error) {
@@ -107,13 +107,13 @@ const DelivererEdit = () => {
                   onChange={handleInputChange}
                 />
                 <FormControl fullWidth>
-                  <InputLabel id="statut-label">Statut</InputLabel>
+                  <InputLabel id="status-label">Statut</InputLabel>
                   <Select
-                    labelId="statut-label"
-                    id="statut"
-                    name="statut"
+                    labelId="status-label"
+                    id="status"
+                    name="status"
                     required
-                    value={newValues.statut || ""}
+                    value={newValues.status || ""}
                     onChange={handleInputChange}
                   >
                     <MenuItem value="free">Libre</MenuItem>
