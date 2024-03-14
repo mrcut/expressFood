@@ -1,34 +1,42 @@
-import React, { useState } from "react";
+import { AccountCircleRounded } from "@mui/icons-material";
 import {
   AppBar,
-  Toolbar,
-  Typography,
   Button,
   Menu,
   MenuItem,
-  Box,
+  Toolbar,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { AccountCircleRounded } from "@mui/icons-material";
+import React, { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useBasket } from "../contexts/BasketContext";
+import Basket from "../basket/Basket";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { user, setUser } = useAuth();
-  const { basket } = useBasket();
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+  const [basketOpen, setBasketOpen] = useState(false);
+  const { items } = useBasket();
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleBasketOpen = () => {
+    setBasketOpen(true);
+  };
+
+  const handleBasketClose = () => {
+    setBasketOpen(false);
   };
 
   const handleLogout = () => {
@@ -62,12 +70,14 @@ const Header = () => {
         >
           Ipssi Express Food
         </Typography>
-
-        {user && basket.length > 0 && !isMobile && (
-          <Button color="inherit" component={RouterLink} to="/basket">
-            Basket ({basket.length})
-          </Button>
-        )}
+        <Button color="inherit" onClick={handleBasketOpen}>
+          Basket ({items.length})
+        </Button>
+        <Basket
+          open={basketOpen}
+          handleClose={handleBasketClose}
+          basketItems={items}
+        />
 
         {user && (
           <>
@@ -91,7 +101,7 @@ const Header = () => {
               <MenuItem
                 onClick={handleClose}
                 component={RouterLink}
-                to="/orders"
+                to="/checkout"
               >
                 Commandes
               </MenuItem>

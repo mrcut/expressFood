@@ -3,7 +3,9 @@ import { Container, Grid, Typography } from "@mui/material";
 import { useAuth } from "../contexts/AuthProvider";
 import ProductCard from "../products/ProductCard";
 
-const Home = () => {
+
+const Home = (product) => {
+  const [products, setProducts] = useState([]);
 
   const { user } = useAuth();
   const [products, setProducts] = useState([]);

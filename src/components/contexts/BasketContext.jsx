@@ -1,48 +1,82 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const BasketContext = createContext();
 
-export const BasketProvider = ({ children }) => {
-  const [basket, setBasket] = useState([]);
+export const useBasket = () => useContext(BasketContext);
 
-  const addToBasket = (product) => {
-    setBasket((prevBasket) => {
-      const existingProduct = prevBasket.find((p) => p._id === product._id);
-      if (existingProduct) {
-        return prevBasket.map((p) =>
-          p._id === product._id ? { ...p, quantity: p.quantity + 1 } : p
-        );
+export const BasketProvider = ({ children }) => {
+  const [items, setItems] = useState(() => {
+    // Load items from localStorage
+    const savedItems = localStorage.getItem("basketItems");
+    return savedItems ? JSON.parse(savedItems) : [];
+  });
+
+  useEffect(() => {
+    // Save items to localStorage whenever they change
+    localStorage.setItem("basketItems", JSON.stringify(items));
+  }, [items]);
+
+  const addToBasket = (product, quantity) => {
+    setItems((prevItems) => {
+      const existingItemIndex = prevItems.findIndex(
+        (item) => item.product._id === product._id
+      );
+      if (existingItemIndex >= 0) {
+        // Update quantity
+        const updatedItems = [...prevItems];
+        updatedItems[existingItemIndex].quantity += quantity;
+        return updatedItems;
+      } else {
+        // Add new item
+        return [...prevItems, { product, quantity }];
       }
-      return [...prevBasket, { ...product, quantity: 1 }];
     });
   };
 
-  const removeFromBasket = (productId) => {
-    setBasket((prevBasket) => {
-      const existingProduct = prevBasket.find((p) => p._id === productId);
-      if (!existingProduct) return prevBasket;
-      if (existingProduct.quantity > 1) {
-        return prevBasket.map((p) =>
-          p._id === productId ? { ...p, quantity: p.quantity - 1 } : p
-        );
-      }
-      return prevBasket.filter((p) => p._id !== productId);
-    });
+  const removeItem = (productId) => {
+    setItems((prevItems) =>
+      prevItems.filter((item) => item.product._id !== productId)
+    );
+  };
+
+  const increaseQuantity = (productId) => {
+    setItems((prevItems) =>
+      prevItems.map((item) => {
+        if (item.product._id === productId) {
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+      })
+    );
   };
 
   const clearBasket = () => {
-    setBasket([]);
+    setItems([]);
+  };
+
+  const decreaseQuantity = (productId) => {
+    setItems((prevItems) =>
+      prevItems.map((item) => {
+        if (item.product._id === productId && item.quantity > 1) {
+          return { ...item, quantity: item.quantity - 1 };
+        }
+        return item;
+      })
+    );
   };
 
   return (
     <BasketContext.Provider
-      value={{ basket, addToBasket, removeFromBasket, clearBasket }}
+      value={{
+        items,
+        addToBasket,
+        removeItem,
+        increaseQuantity,
+        decreaseQuantity,
+        clearBasket,
+      }}
     >
       {children}
     </BasketContext.Provider>
   );
-};
-
-export const useBasket = () => {
-  return useContext(BasketContext);
 };
