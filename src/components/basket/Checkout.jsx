@@ -65,7 +65,7 @@ const Checkout = () => {
 
       clearBasket();
 
-      navigate("/orders", {
+      navigate("/myOrders", {
         state: {
           orderId: order._id,
           deliverer: assignedDeliverer,
