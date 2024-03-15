@@ -53,9 +53,7 @@ const MainRoutes = () => {
       <Route
         path="/register"
         element={
-          <GuestRoute>
             <Register />
-          </GuestRoute>
         }
       />
       <Route

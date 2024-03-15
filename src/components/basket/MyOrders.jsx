@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   List,
@@ -6,6 +6,7 @@ import {
   ListItemText,
   Paper,
   Typography,
+  Button,
 } from "@mui/material";
 import { useAuth } from "../contexts/AuthProvider";
 
@@ -14,37 +15,37 @@ const MyOrders = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      if (!user || !user.email) return;
+  const fetchOrders = async () => {
+    if (!user || !user.email) return;
 
-      try {
-        const response = await fetch(
-          `http://localhost:5003/Order/email/${user.email}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch orders");
+    try {
+      const response = await fetch(
+        `http://localhost:5003/Order/email/${user.email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
         }
+      );
 
-        const data = await response.json();
-        setOrders(
-          data.map((order) => ({
-            ...order,
-            endTime: new Date(order.date).getTime() + 20 * 60000,
-            timerDisplay: "",
-          }))
-        );
-      } catch (error) {
-        console.error("Error fetching orders:", error);
+      if (!response.ok) {
+        throw new Error("Failed to fetch orders");
       }
-    };
+
+      const data = await response.json();
+      setOrders(
+        data.map((order) => ({
+          ...order,
+          endTime: new Date(order.date).getTime() + 20 * 60000,
+          timerDisplay: "",
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
 
     fetchOrders();
   }, [user, user.email, user.token]);
@@ -73,7 +74,7 @@ const MyOrders = () => {
   }, [orders]);
 
   return (
-    <Container style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
+    <Container style={{ paddingTop: "5rem", paddingBottom: "4rem" }}>
       <Typography variant="h4" gutterBottom>
         Liste des Commandes
       </Typography>
@@ -107,6 +108,15 @@ const MyOrders = () => {
                   </>
                 }
               />
+              {order.timerDisplay !== "Livraison effectuée." && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => markAsDelivered(order._id)}
+                >
+                  Livré
+                </Button>
+              )}
             </ListItem>
           </Paper>
         ))}

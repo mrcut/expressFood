@@ -53,7 +53,7 @@ const Header = () => {
   ];
 
   return (
-    <AppBar position="fixed" color="info">
+    <AppBar position="fixed" sx={{ bgcolor: "black" }}>
       <Toolbar sx={{ justifyContent: "space-between", alignItems: "center" }}>
         <Typography
           variant="h6"

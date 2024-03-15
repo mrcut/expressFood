@@ -67,7 +67,7 @@ const Register = () => {
         alignItems: "center",
       }}
     >
-      <Container maxWidth="sm">
+    <Container style={{ paddingTop: "5rem", paddingBottom: "4rem" }}>
         <Box sx={{ textAlign: "center" }}>
           <Typography variant="h3" gutterBottom>
             Inscription

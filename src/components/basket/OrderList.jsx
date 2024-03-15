@@ -1,4 +1,5 @@
 import {
+  Button,
   Container,
   List,
   ListItem,
@@ -70,7 +71,7 @@ const OrderList = () => {
   }, [orders]);
 
   return (
-    <Container style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
+    <Container style={{ paddingTop: "5rem", paddingBottom: "4rem" }}>
       <Typography variant="h4" gutterBottom>
         Liste des Commandes
       </Typography>
@@ -104,6 +105,15 @@ const OrderList = () => {
                     <Typography component="div" variant="subtitle1">
                       {order.timerDisplay}
                     </Typography>
+                    {order.timerDisplay !== "Livraison effectuée." && (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => markAsDelivered(order._id)}
+                      >
+                        Livré
+                      </Button>
+                    )}
                   </>
                 }
               />
