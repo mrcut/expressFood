@@ -70,14 +70,20 @@ const Header = () => {
         >
           Ipssi Express Food
         </Typography>
-        <Button color="inherit" onClick={handleBasketOpen}>
-          Basket ({items.length})
-        </Button>
-        <Basket
-          open={basketOpen}
-          handleClose={handleBasketClose}
-          basketItems={items}
-        />
+
+        {user && (
+          <>
+            {" "}
+            <Button color="inherit" onClick={handleBasketOpen}>
+              Basket ({items.length})
+            </Button>
+            <Basket
+              open={basketOpen}
+              handleClose={handleBasketClose}
+              basketItems={items}
+            />{" "}
+          </>
+        )}
 
         {user && (
           <>
