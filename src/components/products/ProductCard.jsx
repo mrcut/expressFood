@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
-  Button,
   Card,
   CardActionArea,
   CardActions,
@@ -10,32 +11,46 @@ import {
   Grid,
   IconButton,
   Snackbar,
+  Switch,
   Typography,
 } from "@mui/material";
+import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useBasket } from "../contexts/BasketContext";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useLocation } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
   const location = useLocation();
 
   const { user } = useAuth();
   const { addToBasket } = useBasket();
-  const [quantity, setQuantity] = useState(1);
+  const [quantity] = useState(1);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  const increaseQuantity = () => setQuantity((prev) => prev + 1);
-  const decreaseQuantity = () =>
-    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  const [isAvailable, setIsAvailable] = useState(product.available);
 
   const handleAddToBasket = () => {
     addToBasket(product, quantity);
     setSnackbarOpen(true);
   };
 
+  const toggleAvailability = async () => {
+    const updatedAvailability = !isAvailable;
+    setIsAvailable(updatedAvailability);
+
+    try {
+      const response = await axios.put(
+        `http://localhost:5003/ProductEdit/${product._id}`,
+        {
+          available: updatedAvailability,
+        }
+      );
+
+      console.log("Product updated successfully:", response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       <Snackbar
@@ -65,14 +80,24 @@ const ProductCard = ({ product }) => {
                 {product.price} €
               </Typography>
               {location.pathname !== "/" && (
-                <Typography variant="body1" color="text.primary">
-                  Disponible: {product.available ? "Oui" : "Non"}
-                </Typography>
+                <>
+                  <Typography
+                    variant="body1"
+                    color="text.primary"
+                    component="div"
+                  >
+                    Disponible:
+                  </Typography>
+                  <Switch
+                    checked={isAvailable}
+                    onChange={toggleAvailability}
+                    color="primary"
+                  />
+                </>
               )}
             </CardContent>
           </CardActionArea>
-
-          {user && (
+          {user && location.pathname !== "/products" && (
             <CardActions>
               <div
                 style={{
@@ -90,8 +115,8 @@ const ProductCard = ({ product }) => {
                 </IconButton>
               </div>
             </CardActions>
-          )}
-          {user && user.role === "admin" && (
+          )}{" "}
+          {user && user.role === "admin" && location.pathname !== "/" && (
             <CardActions>
               <Link
                 to={`/editProduct/${product._id}`}

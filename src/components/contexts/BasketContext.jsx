@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useEffect, useState } from "react";
 
 const BasketContext = createContext();
 
@@ -12,7 +14,7 @@ export const BasketProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    // Save items to localStorage whenever they change
+    // Sauvegarde les items dans le localStorage
     localStorage.setItem("basketItems", JSON.stringify(items));
   }, [items]);
 
@@ -22,12 +24,11 @@ export const BasketProvider = ({ children }) => {
         (item) => item.product._id === product._id
       );
       if (existingItemIndex >= 0) {
-        // Update quantity
+        // Mettre à jour la quantité
         const updatedItems = [...prevItems];
         updatedItems[existingItemIndex].quantity += quantity;
         return updatedItems;
       } else {
-        // Add new item
         return [...prevItems, { product, quantity }];
       }
     });

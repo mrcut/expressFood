@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import Home from "../pages/Home";
@@ -21,8 +22,8 @@ import ProductEdit from "../products/ProductEdit";
 import ProductList from "../products/ProductList";
 import Checkout from "../basket/Checkout";
 import OrderList from "../basket/OrderList";
+import MyOrders from "../basket/MyOrders";
 
-// Protected route component (hypothetical example)
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
   return user ? children : <Navigate to="/login" />;
@@ -129,7 +130,6 @@ const MainRoutes = () => {
           </AdminRoute>
         }
       />
-
       <Route
         path="/users"
         element={
@@ -199,6 +199,14 @@ const MainRoutes = () => {
         element={
           <ProtectedRoute>
             <OrderList />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/myOrders"
+        element={
+          <ProtectedRoute>
+            <MyOrders />
           </ProtectedRoute>
         }
       />

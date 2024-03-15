@@ -1,15 +1,16 @@
+/* eslint-disable react/prop-types */
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import {
+  Avatar,
+  IconButton,
   ListItem,
   ListItemAvatar,
-  Avatar,
-  ListItemText,
   ListItemSecondaryAction,
-  IconButton,
+  ListItemText,
   Typography,
 } from "@mui/material";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useBasket } from "../contexts/BasketContext";
 
 const BasketItem = ({ item }) => {

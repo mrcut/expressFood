@@ -3,7 +3,7 @@ import { Container, Grid, Typography } from "@mui/material";
 import { useAuth } from "../contexts/AuthProvider";
 import ProductCard from "../products/ProductCard";
 
-const Home = (product) => {
+const Home = () => {
   const [products, setProducts] = useState([]);
 
   const { user } = useAuth();
@@ -12,7 +12,8 @@ const Home = (product) => {
     const fetchProducts = async () => {
       try {
         if (user) {
-          const response = await fetch("http://localhost:5003/ProductsList", { //changer avec randomProduct si utilisation de cron
+          const response = await fetch("http://localhost:5003/ProductsList", {
+            //changer avec randomProduct si utilisation de cron
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -28,7 +29,9 @@ const Home = (product) => {
 
           const data = await response.json();
 
-          const availableProducts = data.filter(product => product.available === true);
+          const availableProducts = data.filter(
+            (product) => product.available === true
+          );
 
           setProducts(availableProducts); //mettre data a la place
         }

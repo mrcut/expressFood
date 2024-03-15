@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   Button,
   Card,
@@ -18,6 +19,8 @@ const UserCard = ({ user }) => {
           </Typography>
           <Typography color="textSecondary">{`Email: ${user.email}`}</Typography>
           <Typography color="textSecondary">{`Téléphone: ${user.phone}`}</Typography>
+          <Typography color="textSecondary">{`Adresse: ${user.address}`}</Typography>
+          <Typography color="textSecondary">{`Rôle: ${user.role}`}</Typography>
         </CardContent>
         <CardActions>
           {["Edit", "Delete"].map((action, index) => (

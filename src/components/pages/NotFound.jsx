@@ -1,7 +1,10 @@
+import notFoundImage from "../../assets/404.webp";
+import "./NotFound.css";
+
 const NotFound = () => {
   return (
-    <div>
-      <img src="..\src\assets\404.webp" alt="Erreur 404" />
+    <div className="not-found">
+      <img src={notFoundImage} alt="Erreur 404" />
     </div>
   );
 };

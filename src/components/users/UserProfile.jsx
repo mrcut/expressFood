@@ -86,16 +86,16 @@ const UserProfile = () => {
         <Grid container sx={{ pt: 5 }} spacing={3}>
           <Grid item xs={12}>
             <TextField
-              id="email"
-              name="email"
-              label="Email"
-              type="email"
-              value={newValues.email}
+              id="firstname"
+              name="firstname"
+              label="Prénom"
+              value={newValues.firstname}
               variant="outlined"
               onChange={handleChange}
               fullWidth
             />
           </Grid>
+
           <Grid item xs={12}>
             <TextField
               id="lastname"
@@ -107,19 +107,18 @@ const UserProfile = () => {
               onChange={handleChange}
             />
           </Grid>
-
           <Grid item xs={12}>
             <TextField
-              id="firstname"
-              name="firstname"
-              label="Prénom"
-              value={newValues.firstname}
+              id="email"
+              name="email"
+              label="Email"
+              type="email"
+              value={newValues.email}
               variant="outlined"
               onChange={handleChange}
               fullWidth
             />
           </Grid>
-
           <Grid item xs={12}>
             <TextField
               id="phone"

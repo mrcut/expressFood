@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Container,
   List,
@@ -6,10 +7,9 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
 
-const OrderList = () => {
+const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const { user } = useAuth();
 
@@ -18,13 +18,16 @@ const OrderList = () => {
       if (!user || !user.email) return;
 
       try {
-        const response = await fetch(`http://localhost:5003/OrdersList`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
+        const response = await fetch(
+          `http://localhost:5003/Order/email/${user.email}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch orders");
@@ -44,7 +47,7 @@ const OrderList = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [user, user.email, user.token]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -87,9 +90,6 @@ const OrderList = () => {
                 secondary={
                   <>
                     <Typography component="span" variant="body2">
-                      Mail de la commande: {order.email}
-                    </Typography>
-                    <Typography component="span" variant="body2">
                       Date: {new Date(order.date).toLocaleDateString()}
                     </Typography>
                     <br />
@@ -115,4 +115,4 @@ const OrderList = () => {
   );
 };
 
-export default OrderList;
+export default MyOrders;

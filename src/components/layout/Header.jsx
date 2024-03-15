@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useBasket } from "../contexts/BasketContext";
@@ -101,7 +101,7 @@ const Header = () => {
               <MenuItem
                 onClick={handleClose}
                 component={RouterLink}
-                to="/orders"
+                to="/myOrders"
               >
                 Commandes
               </MenuItem>

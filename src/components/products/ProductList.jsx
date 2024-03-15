@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
 import { Button, Container, Grid, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthProvider";
 import ProductCard from "../products/ProductCard";
-import { useNavigate } from "react-router";
 
 const Home = () => {
   const [products, setProducts] = useState([]);

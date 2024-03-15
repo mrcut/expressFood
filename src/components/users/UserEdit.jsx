@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Container,
@@ -17,73 +17,63 @@ import axios from "axios";
 
 const UserEdit = () => {
   const { id } = useParams();
-  const [user, setUser] = useState({});
-  const [newValues, setNewValues] = useState({
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
     firstname: "",
     lastname: "",
     phone: "",
     email: "",
     address: "",
-    password: "",
     role: "",
   });
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const userStored = localStorage.getItem("user");
-    const token = userStored ? JSON.parse(userStored).token : null;
+    const fetchUserDetails = async () => {
+      const userStored = localStorage.getItem("user");
+      const token = userStored ? JSON.parse(userStored).token : null;
 
-    if (token) {
-      axios
-        .get(`http://localhost:5003/User/${id}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
+      if (token) {
+        try {
+          const response = await axios.get(`http://localhost:5003/User/${id}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
           setUser(response.data);
-          setNewValues((prevValues) => ({
-            ...prevValues,
-            firstname: response.data.firstname || "",
-            lastname: response.data.lastname || "",
-            phone: response.data.phone || "",
-            email: response.data.email || "",
-            address: response.data.address || "",
-            role: response.data.role || "",
-          }));
-        })
-        .catch((error) => {
+        } catch (error) {
           console.error("Error fetching user details:", error.message);
-        });
-    } else {
-      console.error("Token not found");
-    }
+        }
+      } else {
+        console.error("Token not found");
+      }
+    };
+
+    fetchUserDetails();
   }, [id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewValues((prevValues) => ({ ...prevValues, [name]: value }));
+    setUser((currentUser) => ({ ...currentUser, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const userStored = localStorage.getItem("user");
+    const token = userStored ? JSON.parse(userStored).token : null;
+
+    if (!token) {
+      console.error("Token not found");
+      return;
+    }
+
     try {
-      const userStored = localStorage.getItem("user");
-      const token = userStored ? JSON.parse(userStored).token : null;
-
-      if (!token) {
-        console.error("Token not found");
-        return;
-      }
-
-      await axios.put(`http://localhost:5003/UserEdit/${id}`, newValues, {
+      await axios.put(`http://localhost:5003/UserEdit/${id}`, user, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
-
       navigate("/users");
     } catch (error) {
       console.error("Error updating user:", error.message);
@@ -97,83 +87,63 @@ const UserEdit = () => {
       </Typography>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <Card>
-              <CardContent>
-                <Typography
-                  variant="h6"
-                  component="div"
-                  sx={{ marginBottom: 1 }}
-                >
-                  Ancien Nom: {user.lastname}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Ancien Prénom: {user.firstname}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Ancien Téléphone: {user.phone}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Ancien Email: {user.email}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Ancien Rôle: {user.role}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12}>
             <Card>
               <CardContent>
                 <TextField
                   variant="outlined"
                   margin="normal"
                   fullWidth
-                  id="nom"
-                  label="Nouveau Nom"
-                  name="nom"
-                  value={newValues.nom}
+                  label="Prénom"
+                  name="firstname"
+                  value={user.firstname}
+                  onChange={handleInputChange}
+                />{" "}
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  label="Nom"
+                  name="lastname"
+                  value={user.lastname}
                   onChange={handleInputChange}
                 />
                 <TextField
                   variant="outlined"
                   margin="normal"
                   fullWidth
-                  id="prenom"
-                  label="Nouveau Prénom"
-                  name="prenom"
-                  value={newValues.prenom}
+                  label="Téléphone"
+                  name="phone"
+                  value={user.phone}
                   onChange={handleInputChange}
                 />
                 <TextField
                   variant="outlined"
                   margin="normal"
                   fullWidth
-                  id="tel"
-                  label="Nouveau Téléphone"
-                  name="tel"
-                  value={newValues.tel}
-                  onChange={handleInputChange}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="email"
-                  label="Nouveau Email"
+                  label="Email"
                   name="email"
-                  value={newValues.email}
+                  value={user.email}
                   onChange={handleInputChange}
                 />
-                <FormControl fullWidth>
-                  <InputLabel id="role-label">Nouveau Rôle</InputLabel>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  label="Adresse"
+                  name="address"
+                  value={user.address}
+                  onChange={handleInputChange}
+                />
+                <FormControl fullWidth margin="normal">
+                  <InputLabel id="role-label">Rôle</InputLabel>
                   <Select
                     labelId="role-label"
                     id="role"
                     name="role"
-                    value={newValues.role}
+                    value={user.role}
                     onChange={handleInputChange}
+                    label="Rôle"
                   >
                     <MenuItem value="admin">Admin</MenuItem>
                     <MenuItem value="client">Client</MenuItem>

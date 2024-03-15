@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import {
   Container,
   List,
@@ -13,6 +13,7 @@ import { useBasket } from "../contexts/BasketContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthProvider";
+import { Alert } from "@mui/material";
 
 const Checkout = () => {
   const { items: basketItems, clearBasket } = useBasket();
@@ -23,13 +24,12 @@ const Checkout = () => {
   const deliveryTax = totalPrice >= 19.99 ? 0 : 2.99;
   const finalTotalPrice = parseFloat(totalPrice) + deliveryTax;
   const navigate = useNavigate();
+  const [alertVisible, setAlertVisible] = useState(false);
 
   const handlePlaceOrder = async () => {
     try {
-      // Get the current date and time
       const currentDate = new Date();
 
-      // Retrieve the list of free deliverers
       const { data: deliverers } = await axios.get(
         "http://localhost:5003/DeliverersList"
       );
@@ -38,10 +38,12 @@ const Checkout = () => {
       );
 
       if (freeDeliverers.length === 0) {
-        throw new Error("Aucun Livreur Disponible pour le moment.");
+        setAlertVisible(true);
+        return;
+      } else {
+        setAlertVisible(false);
       }
 
-      // Assign a deliverer and update status to 'OnCourse'
       const assignedDeliverer = freeDeliverers[0];
       await axios.put(
         `http://localhost:5003/DelivererEdit/${assignedDeliverer._id}`,
@@ -50,7 +52,6 @@ const Checkout = () => {
         }
       );
 
-      // Create a new order with deliverer information
       const { data: order } = await axios.post(
         "http://localhost:5003/OrderAdd",
         {
@@ -64,12 +65,11 @@ const Checkout = () => {
 
       clearBasket();
 
-
       navigate("/orders", {
         state: {
           orderId: order._id,
           deliverer: assignedDeliverer,
-          estimatedDeliveryTime: 20, // minutes
+          estimatedDeliveryTime: 20,
           orderDate: currentDate,
         },
       });
@@ -77,11 +77,17 @@ const Checkout = () => {
       console.error("Erreur lors de la création de la commande:", error);
     }
   };
+
   return (
     <Container style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Checkout
       </Typography>
+      {alertVisible && (
+        <Alert severity="error" style={{ marginBottom: "20px" }}>
+          Aucun Livreur Disponible pour le moment.
+        </Alert>
+      )}
       <List>
         {basketItems.map((item) => (
           <BasketItem key={item.product._id} item={item} />
@@ -107,7 +113,6 @@ const Checkout = () => {
         fullWidth
         style={{ marginTop: "20px" }}
         onClick={handlePlaceOrder}
-        // Implement onClick to handle actual checkout process
       >
         Passer la commande
       </Button>

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { TextField } from "@mui/material";
 
 export const regEXEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

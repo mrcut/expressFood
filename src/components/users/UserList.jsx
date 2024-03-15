@@ -83,10 +83,10 @@ const UsersList = () => {
       >
         Ajouter un Utilisateur
       </Button>
+
       <Typography variant="h5" sx={{ my: 3 }}>
         Liste des livreurs
       </Typography>
-
       <Grid container spacing={2}>
         {delivererList.map((deliverer) => (
           <DelivererCard key={deliverer._id} deliverer={deliverer} />
@@ -104,5 +104,4 @@ const UsersList = () => {
     </Container>
   );
 };
-
 export default UsersList;

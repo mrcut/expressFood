@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Container, Typography, Button } from "@mui/material";
 import axios from "axios";
@@ -13,7 +13,10 @@ const DelivererDelete = () => {
         await axios.delete(`http://localhost:5003/DelivererDelete/${id}`);
         console.log("Le livreur a été supprimé avec succès.");
       } catch (error) {
-        console.error("Erreur lors de la suppression du livreur:", error.message);
+        console.error(
+          "Erreur lors de la suppression du livreur:",
+          error.message
+        );
       }
     };
 
@@ -28,7 +31,13 @@ const DelivererDelete = () => {
       <Typography variant="body1">
         Le livreur a été supprimé avec succès.
       </Typography>
-      <Button component={Link} to="/users" variant="contained" color="primary" sx={{ marginTop: 2 }}>
+      <Button
+        component={Link}
+        to="/users"
+        variant="contained"
+        color="primary"
+        sx={{ marginTop: 2 }}
+      >
         Retour à la Liste des Livreurs
       </Button>
     </Container>

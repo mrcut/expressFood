@@ -1,13 +1,11 @@
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
   Avatar,
   Button,
   Container,
-  FilledInput,
   FormControl,
-  InputAdornment,
   InputLabel,
   MenuItem,
-  OutlinedInput,
   Select,
   TextField,
   Typography,
@@ -16,7 +14,6 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const DelivererAdd = () => {
   const [newDeliverer, setNewDeliverer] = useState({
