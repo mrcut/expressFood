@@ -12,7 +12,7 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         if (user) {
-          const response = await fetch("http://localhost:5003/ProductsList", {
+          const response = await fetch("http://localhost:5003/randomProducts", {
             //changer avec randomProduct si utilisation de cron
             method: "GET",
             headers: {
