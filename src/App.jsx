@@ -4,18 +4,23 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import { AuthProvider } from "./components/contexts/AuthProvider";
 import { BasketProvider } from "./components/contexts/BasketContext";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import theme from "./assets/theme";
 
 function App() {
   return (
-    <AuthProvider>
-      <BasketProvider>
-        <BrowserRouter>
-          <Header />
-          <MainRoutes />
-          <Footer />
-        </BrowserRouter>
-      </BasketProvider>
-    </AuthProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AuthProvider>
+        <BasketProvider>
+          <BrowserRouter>
+            <Header />
+            <MainRoutes />
+            <Footer />
+          </BrowserRouter>
+        </BasketProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

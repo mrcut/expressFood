@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/material-icons": "^5.0.15",
     "@mui/icons-material": "^5.15.12",
-    "@mui/material": "^5.15.12",
+    "@mui/material": "^5.15.13",
     "axios": "^1.6.7",
     "fontsource-roboto": "^4.0.0",
     "prop-types": "^15.8.1",
