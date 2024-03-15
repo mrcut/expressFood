@@ -64,7 +64,7 @@ const Login = () => {
         alignItems: "center",
       }}
     >
-      <Container maxWidth="sm">
+    <Container style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
         <Box
           sx={{
             textAlign: "center",

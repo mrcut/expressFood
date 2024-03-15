@@ -41,7 +41,7 @@ const Home = () => {
   const desserts = products.filter((product) => product.type === "dessert");
 
   return (
-    <Container style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
+    <Container style={{ paddingTop: "5rem", paddingBottom: "4rem" }}>
       <Typography variant="h3" align="center" gutterBottom>
         Listes des produits
       </Typography>

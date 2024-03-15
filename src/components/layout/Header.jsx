@@ -53,7 +53,7 @@ const Header = () => {
   ];
 
   return (
-    <AppBar position="fixed" color="info">
+    <AppBar position="fixed" sx={{ bgcolor: "black" }}>
       <Toolbar sx={{ justifyContent: "space-between", alignItems: "center" }}>
         <Typography
           variant="h6"
@@ -70,14 +70,20 @@ const Header = () => {
         >
           Ipssi Express Food
         </Typography>
-        <Button color="inherit" onClick={handleBasketOpen}>
-          Basket ({items.length})
-        </Button>
-        <Basket
-          open={basketOpen}
-          handleClose={handleBasketClose}
-          basketItems={items}
-        />
+
+        {user && (
+          <>
+            {" "}
+            <Button color="inherit" onClick={handleBasketOpen}>
+              Basket ({items.length})
+            </Button>
+            <Basket
+              open={basketOpen}
+              handleClose={handleBasketClose}
+              basketItems={items}
+            />{" "}
+          </>
+        )}
 
         {user && (
           <>

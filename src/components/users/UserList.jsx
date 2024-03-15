@@ -79,6 +79,8 @@ const UsersList = () => {
         variant="contained"
         color="primary"
         sx={{ mb: 3 }}
+        style={{ marginTop: "1rem"}}
+
         onClick={() => navigate("/register")}
       >
         Ajouter un Utilisateur
@@ -97,6 +99,8 @@ const UsersList = () => {
         variant="contained"
         color="primary"
         sx={{ mb: 3 }}
+        style={{ marginTop: "1rem"}}
+
         onClick={() => navigate("/addDeliverer")}
       >
         Ajouter un Livreur
