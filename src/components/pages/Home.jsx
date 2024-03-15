@@ -12,7 +12,7 @@ const Home = (product) => {
     const fetchProducts = async () => {
       try {
         if (user) {
-          const response = await fetch("http://localhost:5003/randomProducts", {
+          const response = await fetch("http://localhost:5003/ProductsList", { //changer avec randomProduct si utilisation de cron
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -27,7 +27,10 @@ const Home = (product) => {
           }
 
           const data = await response.json();
-          setProducts(data);
+
+          const availableProducts = data.filter(product => product.available === true);
+
+          setProducts(availableProducts); //mettre data a la place
         }
       } catch (error) {
         console.error("Error:", error);

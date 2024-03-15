@@ -25,6 +25,7 @@ const OrderList = () => {
           {
             method: "GET",
             headers: {
+              "Content-Type": "application/json",
               Authorization: `Bearer ${user.token}`,
             },
           }
@@ -36,6 +37,8 @@ const OrderList = () => {
 
         const data = await response.json();
         setOrders(data);
+
+
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
@@ -72,12 +75,15 @@ const OrderList = () => {
   }, [selectedOrder]);
 
   return (
-    <Container>
+    <Container style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
       <Typography variant="h4" gutterBottom>
         Liste des Commandes
+        {console.log(orders)}
+
       </Typography>
       <List>
         {orders?.map((order) => (
+
           <Paper
             key={order._id}
             elevation={2}
@@ -93,7 +99,7 @@ const OrderList = () => {
                     </Typography>
                     <br />
                     <Typography component="span" variant="body2">
-                      Prix Total: {order.totalprice}€{" "}
+                      Prix Total: {order.price}€{" "}
                       {/* Ensure this matches your model */}
                     </Typography>
                     <br />

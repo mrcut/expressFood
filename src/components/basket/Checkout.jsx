@@ -61,11 +61,10 @@ const Checkout = () => {
           email: user.email,
         }
       );
-      console.log(assignedDeliverer.firstname);
-      console.log(finalTotalPrice);
-      //   clearBasket(); // Clear the basket after successful order placement
 
-      // Redirect to the tracking page with the order and deliverer information
+      clearBasket();
+
+
       navigate("/orders", {
         state: {
           orderId: order._id,
@@ -76,11 +75,10 @@ const Checkout = () => {
       });
     } catch (error) {
       console.error("Erreur lors de la création de la commande:", error);
-      // Handle the error (show an error message to the user)
     }
   };
   return (
-    <Container maxWidth="md">
+    <Container style={{ paddingTop: "4rem", paddingBottom: "4rem" }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Checkout
       </Typography>

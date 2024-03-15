@@ -17,8 +17,11 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useBasket } from "../contexts/BasketContext";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useLocation } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
+  const location = useLocation();
+
   const { user } = useAuth();
   const { addToBasket } = useBasket();
   const [quantity, setQuantity] = useState(1);
@@ -61,6 +64,11 @@ const ProductCard = ({ product }) => {
               <Typography variant="body1" color="text.primary">
                 {product.price} €
               </Typography>
+              {location.pathname !== "/" && (
+                <Typography variant="body1" color="text.primary">
+                  Disponible: {product.available ? "Oui" : "Non"}
+                </Typography>
+              )}
             </CardContent>
           </CardActionArea>
 

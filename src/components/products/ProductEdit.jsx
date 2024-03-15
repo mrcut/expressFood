@@ -30,6 +30,8 @@ const ProductEdit = () => {
     type: "",
     price: "",
     quantity: "",
+    available: "",
+
   });
 
   useEffect(() => {
@@ -153,6 +155,19 @@ const ProductEdit = () => {
                   onChange={handleInputChange}
                   required
                 />
+                <FormControl fullWidth>
+            <InputLabel id="available-label">Disponible</InputLabel>
+            <Select
+              labelId="available-label"
+              id="available"
+              name="available"
+              value={newValues.available}
+              onChange={handleInputChange}
+            >
+              <MenuItem value={true}>Oui</MenuItem>
+              <MenuItem value={false}>Non</MenuItem>
+            </Select>
+          </FormControl>
               </CardContent>
             </Card>
           </Grid>
