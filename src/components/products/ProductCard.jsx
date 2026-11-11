@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 /* eslint-disable react/prop-types */
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -40,7 +41,7 @@ const ProductCard = ({ product }) => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5003/ProductEdit/${product._id}`,
+        apiUrl(`/ProductEdit/${product._id}`),
         {
           available: updatedAvailability,
         }

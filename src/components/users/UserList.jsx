@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import { Button, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +16,7 @@ const UsersList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("http://localhost:5003/UsersList", {
+        const response = await fetch(apiUrl("/UsersList"), {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -41,7 +42,7 @@ const UsersList = () => {
   useEffect(() => {
     const fetchDeliverers = async () => {
       try {
-        const response = await fetch("http://localhost:5003/DeliverersList", {
+        const response = await fetch(apiUrl("/DeliverersList"), {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

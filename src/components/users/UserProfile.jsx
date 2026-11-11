@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import SendIcon from "@mui/icons-material/Send";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
@@ -17,7 +18,7 @@ const UserProfile = () => {
   useEffect(() => {
     if (user) {
       axios
-        .get(`http://localhost:5003/User/${user._id}`, {
+        .get(apiUrl(`/User/${user._id}`), {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${user.token}`,
@@ -49,7 +50,7 @@ const UserProfile = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5003/UserEdit/${user._id}`,
+        apiUrl(`/UserEdit/${user._id}`),
         newValues,
         {
           headers: {

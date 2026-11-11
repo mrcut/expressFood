@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import { useEffect, useState } from "react";
 import { Container, Grid, Typography } from "@mui/material";
 import { useAuth } from "../contexts/AuthProvider";
@@ -12,7 +13,7 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         if (user) {
-          const response = await fetch("http://localhost:5003/randomProducts", {
+          const response = await fetch(apiUrl("/randomProducts"), {
             //changer avec randomProduct si utilisation de cron
             method: "GET",
             headers: {

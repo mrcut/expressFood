@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import { Button, Container, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
@@ -10,7 +11,7 @@ const ProductDelete = () => {
   useEffect(() => {
     const deleteProduct = async () => {
       try {
-        await axios.delete(`http://localhost:5003/ProductDelete/${id}`);
+        await axios.delete(apiUrl(`/ProductDelete/${id}`));
         console.log("test");
       } catch (error) {
         console.error("Error deleting product:", error.message);

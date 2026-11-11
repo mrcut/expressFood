@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import { useState } from "react";
 import { Container, Typography, TextField, Button, Box } from "@mui/material";
 import axios from "axios";
@@ -42,7 +43,7 @@ const Register = () => {
     if (validate()) {
       try {
         const response = await axios.post(
-          "http://localhost:5003/Register",
+          apiUrl("/Register"),
           userRegister,
           { withCredentials: true }
         );

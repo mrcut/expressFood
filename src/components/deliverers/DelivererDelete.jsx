@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import { useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Container, Typography, Button } from "@mui/material";
@@ -10,7 +11,7 @@ const DelivererDelete = () => {
   useEffect(() => {
     const deleteDeliverer = async () => {
       try {
-        await axios.delete(`http://localhost:5003/DelivererDelete/${id}`);
+        await axios.delete(apiUrl(`/DelivererDelete/${id}`));
         console.log("Le livreur a été supprimé avec succès.");
       } catch (error) {
         console.error(

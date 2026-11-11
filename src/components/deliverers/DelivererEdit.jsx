@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -37,7 +38,7 @@ const DelivererEdit = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5003/Deliverer/${id}`,
+          apiUrl(`/Deliverer/${id}`),
           {
             headers: {
               "Content-Type": "application/json",
@@ -67,7 +68,7 @@ const DelivererEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5003/DelivererEdit/${id}`, newValues);
+      await axios.put(apiUrl(`/DelivererEdit/${id}`), newValues);
       navigate("/users");
     } catch (error) {
       console.error("Error updating deliverer:", error.message);

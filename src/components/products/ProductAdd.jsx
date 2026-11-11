@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import {
   Button,
   Container,
@@ -36,7 +37,7 @@ const ProductAdd = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5003/ProductAdd", newProduct);
+      await axios.post(apiUrl("/ProductAdd"), newProduct);
       navigate("/products");
     } catch (error) {
       console.error("Error adding product:", error.message);

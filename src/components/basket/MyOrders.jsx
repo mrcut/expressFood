@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import React, { useEffect, useState } from "react";
 import {
   Container,
@@ -20,7 +21,7 @@ const MyOrders = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5003/Order/email/${user.email}`,
+        apiUrl(`/Order/email/${user.email}`),
         {
           method: "GET",
           headers: {

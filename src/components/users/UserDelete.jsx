@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 /* eslint-disable react/no-unescaped-entities */
 import { useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
@@ -15,7 +16,7 @@ const UserDelete = () => {
         const token = userStored ? JSON.parse(userStored).token : null;
 
         if (token) {
-          await axios.delete(`http://localhost:5003/UserDelete/${id}`, {
+          await axios.delete(apiUrl(`/UserDelete/${id}`), {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,

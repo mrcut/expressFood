@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import { Box, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -30,7 +31,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5003/Login",
+        apiUrl("/Login"),
 
         userLog,
         { withCredentials: true }

@@ -25,7 +25,7 @@ Prérequis : Node.js / npm compatibles avec Vite 5 et une instance du backend av
 
 ### 1. Préparer le backend
 
-Suivre les [instructions du backend](https://github.com/mrcut/expressfoodBack#readme). Le frontend appelle directement `http://localhost:5003`.
+Suivre les [instructions du backend](https://github.com/mrcut/expressfoodBack#readme). En développement, le frontend appelle `http://localhost:5003` par défaut. Tous les appels passent par `src/config/api.js`.
 
 ### 2. Lancer le frontend
 
@@ -41,6 +41,12 @@ Ouvrir `http://localhost:5173`. Le backend doit utiliser `PORT=5003` et `PORT_CL
 ### 3. Explorer le parcours
 
 Créer un compte via `/register`, puis se connecter. Préparer des produits et au moins un livreur de statut `free` dans la base de démonstration pour tester une commande. Les écrans d’administration nécessitent un compte au rôle `admin` ; aucun compte de démonstration préconfiguré n’est fourni.
+
+## Connexion à l’API en production
+
+Définir `VITE_API_URL=https://expressfood-back-abdellahs-projects-4bd571ad.vercel.app` dans les variables Production du projet Vercel frontend, puis redéployer. Cette URL est publique ; aucun secret ne doit être placé dans une variable `VITE_*`.
+
+En développement, `npm run dev` utilise `http://localhost:5003` par défaut. Une variable `VITE_API_URL` locale peut remplacer cette adresse. L’origine du frontend doit être autorisée par `PORT_CLIENT` dans le backend.
 
 ## Points de lecture
 

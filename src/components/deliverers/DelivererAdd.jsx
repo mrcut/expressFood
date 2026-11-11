@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
   Avatar,
@@ -32,7 +33,7 @@ const DelivererAdd = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5003/DelivererAdd", newDeliverer);
+      await axios.post(apiUrl("/DelivererAdd"), newDeliverer);
       navigate("/users");
     } catch (error) {
       console.error("Error adding deliverer:", error.message);

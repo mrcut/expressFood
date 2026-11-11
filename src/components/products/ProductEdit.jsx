@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import {
   Button,
   Card,
@@ -43,7 +44,7 @@ const ProductEdit = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5003/Product/${id}`,
+          apiUrl(`/Product/${id}`),
           {
             headers: {
               "Content-Type": "application/json",
@@ -75,7 +76,7 @@ const ProductEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5003/ProductEdit/${id}`, newValues);
+      await axios.put(apiUrl(`/ProductEdit/${id}`), newValues);
       navigate("/products");
     } catch (error) {
       console.error("Error updating product:", error.message);

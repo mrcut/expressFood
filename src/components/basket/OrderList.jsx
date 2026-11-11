@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import {
   Button,
   Container,
@@ -19,7 +20,7 @@ const OrderList = () => {
       if (!user || !user.email) return;
 
       try {
-        const response = await fetch(`http://localhost:5003/OrdersList`, {
+        const response = await fetch(apiUrl(`/OrdersList`), {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

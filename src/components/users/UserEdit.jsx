@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 /* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -35,7 +36,7 @@ const UserEdit = () => {
 
       if (token) {
         try {
-          const response = await axios.get(`http://localhost:5003/User/${id}`, {
+          const response = await axios.get(apiUrl(`/User/${id}`), {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
@@ -69,7 +70,7 @@ const UserEdit = () => {
     }
 
     try {
-      await axios.put(`http://localhost:5003/UserEdit/${id}`, user, {
+      await axios.put(apiUrl(`/UserEdit/${id}`), user, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

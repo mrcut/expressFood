@@ -1,3 +1,4 @@
+import { apiUrl } from "../../config/api";
 import { useState } from "react";
 import {
   Container,
@@ -31,7 +32,7 @@ const Checkout = () => {
       const currentDate = new Date();
 
       const { data: deliverers } = await axios.get(
-        "http://localhost:5003/DeliverersList"
+        apiUrl("/DeliverersList")
       );
       const freeDeliverers = deliverers.filter(
         (deliverer) => deliverer.status === "free"
@@ -46,14 +47,14 @@ const Checkout = () => {
 
       const assignedDeliverer = freeDeliverers[0];
       await axios.put(
-        `http://localhost:5003/DelivererEdit/${assignedDeliverer._id}`,
+        apiUrl(`/DelivererEdit/${assignedDeliverer._id}`),
         {
           status: "inDelivery",
         }
       );
 
       const { data: order } = await axios.post(
-        "http://localhost:5003/OrderAdd",
+        apiUrl("/OrderAdd"),
         {
           items: basketItems,
           date: currentDate,
