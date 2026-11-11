@@ -1,64 +1,74 @@
-# Frontend MERN (MongoDB, Express, React, Node.js)
+# ExpressFood — application de commande de repas
 
-Bienvenue dans le référentiel du frontend de notre projet MERN ! Ce référentiel contient le code source nécessaire pour développer l'interface utilisateur de notre application, en utilisant la bibliothèque React.js. Notre objectif est de créer une interface utilisateur réactive et intuitive qui offre une expérience utilisateur exceptionnelle pour notre application basée sur la stack MERN (MongoDB, Express, React, Node.js).
+Projet collectif de commande de repas : consultation du catalogue, gestion d’un panier et création d’une commande avec affectation d’un livreur disponible.
 
-## Objectif
+Ce dépôt contient le **frontend React**. Le backend associé est [expressfoodBack](https://github.com/mrcut/expressfoodBack).
 
-Ce projet vise à fournir une interface utilisateur dynamique et conviviale pour interagir avec notre backend et accéder aux fonctionnalités de notre application. En utilisant React.js, nous pouvons créer des composants réutilisables et modulaires qui facilitent le développement et la maintenance de notre application frontend.
+**Stack frontend :** React 18, JavaScript, Vite 5, React Router 6, Material UI 5, Axios.  
+**Ensemble fullstack :** React → API Node.js / Express → MongoDB / Mongoose.
 
-## Technologies utilisées
+## Fonctionnalités présentes dans le code
 
-- **React.js**: Une bibliothèque JavaScript frontale pour la construction d'interfaces utilisateur interactives et réactives.
-- **Material UI**: Framework CSS populaire pour la création d'interfaces utilisateur réactives et esthétiques.
-- **Axios**: Bibliothèque JavaScript pour effectuer des requêtes HTTP depuis le navigateur.
+- Inscription, connexion et profil utilisateur.
+- Catalogue avec vues plats / desserts.
+- Panier avec modification des quantités et persistance dans `localStorage`.
+- Récapitulatif des prix et frais de livraison.
+- Création d’une commande et sélection du premier livreur au statut `free` ; alerte si aucun n’est disponible.
+- Écrans de consultation des commandes.
+- Écrans d’administration des produits, utilisateurs et livreurs ; navigation conditionnée par le rôle.
 
-## Installation
+Le checkout crée une commande : **aucune intégration de paiement en ligne n’est présente dans le parcours examiné**. L’estimation de livraison affichée est une valeur fixe de 20 minutes dans le code, pas un suivi en temps réel.
 
-1. Clonez ce référentiel sur votre machine locale en utilisant la commande suivante :
+## Démarrage local
 
-   ```
-   git clone https://github.com/mrcut/expressFood.git
-   ```
+Prérequis : Node.js / npm compatibles avec Vite 5 et une instance du backend avec MongoDB. Le dépôt ne fixe pas de version Node.
 
-2. Accédez au répertoire du projet :
+### 1. Préparer le backend
 
-   ```
-   cd expressFood
-   ```
+Suivre les [instructions du backend](https://github.com/mrcut/expressfoodBack#readme). Le frontend appelle directement `http://localhost:5003`.
 
-3. Installez les dépendances nécessaires en utilisant npm :
+### 2. Lancer le frontend
 
-   ```
-   npm install
-   npm install axios
-   
-   ```
+```sh
+git clone https://github.com/mrcut/expressFood.git
+cd expressFood
+npm ci
+npm run dev -- --port 5173 --strictPort
+```
 
-4. Démarrez l'application en utilisant la commande suivante :
+Ouvrir `http://localhost:5173`. Le backend doit utiliser `PORT=5003` et `PORT_CLIENT=http://localhost:5173` pour correspondre aux URLs et à la configuration CORS.
 
-   ```
-   npm run dev
-   ```
+### 3. Explorer le parcours
 
-Cela lancera l'application frontend et vous pourrez commencer à l'utiliser dans votre navigateur.
+Créer un compte via `/register`, puis se connecter. Préparer des produits et au moins un livreur de statut `free` dans la base de démonstration pour tester une commande. Les écrans d’administration nécessitent un compte au rôle `admin` ; aucun compte de démonstration préconfiguré n’est fourni.
 
-## Structure du projet
+## Points de lecture
 
-- **/src/components**: Ce répertoire contient les composants réutilisables de notre application, tels que les boutons, les formulaires, les cartes, etc.
-- **/src/components/pages**: Les pages de l'application sont définies ici, chacune représentant une vue distincte de notre application.
-- **/src/assets**: Les ressources statiques, telles que les images et les fichiers CSS, sont stockées ici.
+| Fichier | Compétence illustrée |
+| --- | --- |
+| [BasketContext.jsx](src/components/contexts/BasketContext.jsx) | État partagé React et persistance du panier |
+| [Checkout.jsx](src/components/basket/Checkout.jsx) | Enchaînement d’appels API et création de commande |
+| [MainRoutes.jsx](src/components/routes/MainRoutes.jsx) | Routage et accès aux écrans selon la session et le rôle |
 
-## Contribution
+Les gardes React contrôlent l’affichage des pages. Elles ne garantissent pas à elles seules les autorisations côté serveur ; plusieurs routes backend ne sont pas protégées dans la version actuelle. L’affectation du livreur s’effectue en plusieurs requêtes et ne garantit pas une réservation atomique.
 
-Les contributions sont les bienvenues ! Si vous souhaitez contribuer à ce projet, veuillez consulter les [CONTRIBUTING.md](CONTRIBUTING.md) pour obtenir des instructions détaillées sur la manière de contribuer.
+## Aperçu à compléter
 
-## Auteurs
+> Captures réelles à ajouter : catalogue, panier et récapitulatif d’une commande avec données fictives. Aucun placeholder n’est présenté comme une capture de l’application.
 
-- [Nicky](https://github.com/Yikkmee) - Développeur principal
-- [Abdellah](https://github.com/Mrcut) - Développeur principal
-- [Douaa](https://github.com/Doua) - Cheffe de Projet
+## Vérifications disponibles
 
+- `npm run build` : compilation.
+- `npm run lint` : analyse ESLint.
 
+Ces commandes existent dans `package.json`. Elles n’ont pas été exécutées lors de cette mise à jour documentaire.
 
----
-Merci d'utiliser notre frontend MERN ! Si vous avez des questions ou des commentaires, n'hésitez pas à nous contacter. Nous sommes ravis de vous avoir à bord !
+## Équipe
+
+Crédits conservés du README d’origine :
+
+- [Nicky](https://github.com/Yikkmee) — Développeur principal.
+- [Abdellah](https://github.com/Mrcut) — Développeur principal.
+- [Douaa](https://github.com/Doua) — Cheffe de projet.
+
+La répartition individuelle des fonctionnalités n’est pas documentée ici ; ce projet est présenté comme un travail collectif.
